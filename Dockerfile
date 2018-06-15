@@ -54,6 +54,23 @@ RUN set -ex; \
 	rm wordpress.tar.gz; \
 	chown -R www-data:www-data /usr/src/wordpress
 
+EXPOSE 8080
+EXPOSE 8443
+
+COPY . /var/www/html/
+
+RUN chown -R root:root /var/www/html /var/log/apache2 /var/lock/apache2 \
+	/var/run/apache2 /usr/local/etc/php /usr/local/lib/php
+
+RUN chmod -R g+rw /etc/apache2 /etc/apache2/mods-available \
+	/etc/apache2/mods-enabled /etc/apache2/sites-available \
+	/etc/apache2/sites-enabled /etc/ssl/certs /etc/ssl/private \
+	/usr/local/etc/php /usr/local/lib/php \
+	/var/lib/apache2/module/enabled_by_admin \
+	/var/lib/apache2/site/enabled_by_admin \
+	/var/lock/apache2 /var/log/apache2 /var/run/apache2 \
+	/var/www/html
+
 COPY start.sh /usr/local/bin/
 RUN chmod 755 /usr/local/bin/start.sh
-CMD ["apache2-foreground"]
+RUN /usr/local/bin/start.sh
