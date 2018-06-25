@@ -84,4 +84,4 @@ RUN chmod g+x /etc/ssl/private
 ##end strange additions
 COPY start.sh /usr/local/bin/
 RUN chmod 755 /usr/local/bin/start.sh
-RUN /usr/local/bin/start.sh
+#RUN /usr/local/bin/start.sh
