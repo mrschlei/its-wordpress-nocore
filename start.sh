@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Redirect logs to stdout and stderr for docker reasons.
-# it seems both sylinks already exist. 
+# it seems both symlinks already exist. 
 # these commands create unnecessary duplicates
 ln -sf /dev/stdout /var/log/apache2/access_log
 ln -sf /dev/stderr /var/log/apache2/error_log
@@ -26,7 +26,7 @@ c_rehash /etc/ssl/certs >/dev/null
 
 a2enmod ssl
 a2enmod include
-#a2ensite default-ssl 
+a2ensite default-ssl 
 
 #cd /var/www/html
 #drush @sites cc all --yes
