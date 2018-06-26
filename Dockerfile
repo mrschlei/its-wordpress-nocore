@@ -119,6 +119,8 @@ RUN ln -sf /secrets/ssl/its-wp-test.webplatformsnonprod.umich.edu.cert \
 
 RUN ln -sf /secrets/ssl/its-wp-test.webplatformsnonprod.umich.edu.key \
 	/etc/ssl/private/its-wp-test.webplatformsnonprod.umich.edu.key
+#=======
+#RUN /bin/sh /secrets/app/local.start.sh
 
 ## Rehash command needs to be run before starting apache.
 RUN c_rehash /etc/ssl/certs >/dev/null
