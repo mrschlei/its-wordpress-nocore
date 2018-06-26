@@ -20,7 +20,7 @@ RUN set -ex; \
 		libxml2-dev \
 		make \
 		zip \
-		mysql-client
+		mysql-client \
 		libjpeg-dev \
 		libpng-dev \
 		libpq-dev \
