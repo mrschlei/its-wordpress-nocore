@@ -1,7 +1,12 @@
-FROM php:7.2-apache
+# from https://www.drupal.org/docs/8/system-requirements/drupal-8-php-requirements
+FROM php:7.0-apache
 
 # install the PHP extensions we need
 RUN set -ex; \
+	\
+	if command -v a2enmod; then \
+		a2enmod rewrite; \
+	fi; \
 	\
 	savedAptMark="$(apt-mark showmanual)"; \
 	\
@@ -9,10 +14,17 @@ RUN set -ex; \
 	apt-get install -y --no-install-recommends \
 		libjpeg-dev \
 		libpng-dev \
+		libpq-dev \
 	; \
 	\
 	docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr; \
-	docker-php-ext-install gd mysqli opcache zip; \
+	docker-php-ext-install -j "$(nproc)" \
+		gd \
+		opcache \
+		pdo_mysql \
+		pdo_pgsql \
+		zip \
+	; \
 	\
 # reset apt-mark's "manual" list so that "purge --auto-remove" will remove all build dependencies
 	apt-mark auto '.*' > /dev/null; \
@@ -34,25 +46,24 @@ RUN { \
 		echo 'opcache.memory_consumption=128'; \
 		echo 'opcache.interned_strings_buffer=8'; \
 		echo 'opcache.max_accelerated_files=4000'; \
-		echo 'opcache.revalidate_freq=2'; \
+		echo 'opcache.revalidate_freq=60'; \
 		echo 'opcache.fast_shutdown=1'; \
 		echo 'opcache.enable_cli=1'; \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
-RUN a2enmod rewrite expires
+WORKDIR /var/www/html
 
-VOLUME /var/www/html
+# https://www.drupal.org/node/3060/release
+ENV DRUPAL_VERSION 7.59
+ENV DRUPAL_MD5 7e09c6b177345a81439fe0aa9a2d15fc
 
-ENV WORDPRESS_VERSION 4.9.6
-ENV WORDPRESS_SHA1 40616b40d120c97205e5852c03096115c2fca537
+RUN curl -fSL "https://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz" -o drupal.tar.gz \
+	&& echo "${DRUPAL_MD5} *drupal.tar.gz" | md5sum -c - \
+	&& tar -xz --strip-components=1 -f drupal.tar.gz \
+	&& rm drupal.tar.gz \
+	&& chown -R www-data:www-data sites modules themes
 
-RUN set -ex; \
-	curl -o wordpress.tar.gz -fSL "https://wordpress.org/wordpress-${WORDPRESS_VERSION}.tar.gz"; \
-	echo "$WORDPRESS_SHA1 *wordpress.tar.gz" | sha1sum -c -; \
-# upstream tarballs include ./wordpress/ so this gives us /usr/src/wordpress
-	tar -xzf wordpress.tar.gz -C /usr/src/; \
-	rm wordpress.tar.gz; \
-	chown -R www-data:www-data /usr/src/wordpress
+# vim:set ft=dockerfile:
 
 EXPOSE 8080
 EXPOSE 8443
