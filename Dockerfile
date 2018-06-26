@@ -91,33 +91,44 @@ RUN chmod g+x /etc/ssl/private
 # Redirect logs to stdout and stderr for docker reasons.
 # it seems both symlinks already exist. 
 # these commands create unnecessary duplicates
-ln -sf /dev/stdout /var/log/apache2/access_log
-ln -sf /dev/stderr /var/log/apache2/error_log
+RUN ln -sf /dev/stdout /var/log/apache2/access_log
+RUN ln -sf /dev/stderr /var/log/apache2/error_log
 
 # apache and virtual host secrets
-ln -sf /secrets/apache2/apache2.conf /etc/apache2/apache2.conf
-ln -sf /secrets/apache2/default-ssl.conf /etc/apache2/sites-available/default-ssl.conf
-ln -sf /secrets/apache2/cosign.conf /etc/apache2/mods-available/cosign.conf
+RUN ln -sf /secrets/apache2/apache2.conf /etc/apache2/apache2.conf
+RUN ln -sf /secrets/apache2/default-ssl.conf /etc/apache2/sites-available/default-ssl.conf
+RUN ln -sf /secrets/apache2/cosign.conf /etc/apache2/mods-available/cosign.conf
 
 # SSL secrets
-ln -sf /secrets/ssl/USERTrustRSACertificationAuthority.pem /etc/ssl/certs/USERTrustRSACertificationAuthority.pem
-ln -sf /secrets/ssl/AddTrustExternalCARoot.pem /etc/ssl/certs/AddTrustExternalCARoot.pem
-ln -sf /secrets/ssl/sha384-Intermediate-cert.pem /etc/ssl/certs/sha384-Intermediate-cert.pem
+RUN ln -sf /secrets/ssl/USERTrustRSACertificationAuthority.pem /etc/ssl/certs/USERTrustRSACertificationAuthority.pem
+RUN ln -sf /secrets/ssl/AddTrustExternalCARoot.pem /etc/ssl/certs/AddTrustExternalCARoot.pem
+RUN ln -sf /secrets/ssl/sha384-Intermediate-cert.pem /etc/ssl/certs/sha384-Intermediate-cert.pem
 
-if [ -f /secrets/app/local.start.sh ]
-then
-  /bin/sh /secrets/app/local.start.sh
-fi
+#if [ -f /secrets/app/local.start.sh ] 
+#then 
+#  /bin/sh /secrets/app/local.start.sh 
+#fi
+
+RUN ln -sf /secrets/apache2/its-wp-test.webplatformsnonprod.umich.edu.conf \
+	/etc/apache2/sites-available/its-wp-test.webplatformsnonprod.umich.edu.conf
+
+RUN ln -sf /secrets/apache2/ports.conf /etc/apache2/ports.conf
+
+RUN ln -sf /secrets/ssl/its-wp-test.webplatformsnonprod.umich.edu.cert \
+	/etc/ssl/certs/its-wp-test.webplatformsnonprod.umich.edu.cert
+
+RUN ln -sf /secrets/ssl/its-wp-test.webplatformsnonprod.umich.edu.key \
+	/etc/ssl/private/its-wp-test.webplatformsnonprod.umich.edu.key
 
 ## Rehash command needs to be run before starting apache.
-c_rehash /etc/ssl/certs >/dev/null
+RUN c_rehash /etc/ssl/certs >/dev/null
 
-a2enmod ssl
-a2enmod include
-a2ensite default-ssl 
+RUN a2enmod ssl
+RUN a2enmod include
+RUN a2ensite default-ssl 
 
 #cd /var/www/html
 #drush @sites cc all --yes
 #drush up --no-backup --yes
 
-/usr/local/bin/apache2-foreground
+RUN /usr/local/bin/apache2-foreground
