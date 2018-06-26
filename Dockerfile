@@ -7,6 +7,15 @@ RUN set -ex; \
 	\
 	apt-get update; \
 	apt-get install -y --no-install-recommends \
+		apt-utils \
+		autoconf \
+		gzip \
+		libaio1 \
+		libaio-dev \
+		libxml2-dev \
+		make \
+		zip \
+		mysql-client \		
 		libjpeg-dev \
 		libpng-dev \
 	; \
