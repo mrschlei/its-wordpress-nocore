@@ -12,6 +12,7 @@ RUN set -ex; \
 	\
 	apt-get update; \
 	apt-get install -y --no-install-recommends \
+		autoconf \
 		libjpeg-dev \
 		libpng-dev \
 		libpq-dev \
@@ -24,7 +25,6 @@ RUN set -ex; \
 		pdo_mysql \
 		pdo_pgsql \
 		zip \
-		autoconf \
 	; \
 	\
 # reset apt-mark's "manual" list so that "purge --auto-remove" will remove all build dependencies
