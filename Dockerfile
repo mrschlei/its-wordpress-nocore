@@ -62,7 +62,7 @@ RUN set -ex; \
 	chown -R www-data:www-data /usr/src/wordpress
 
 COPY start.sh /usr/local/bin/
-CMD ["/usr/loca/bin/start.sh"]
+CMD ["/usr/local/bin/start.sh"]
 
 #ENTRYPOINT ["start.sh"]
 #CMD ["start.sh"]
