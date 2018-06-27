@@ -1,4 +1,4 @@
-FROM php:7.0-fpm
+FROM php:7.0-apache
 
 # install the PHP extensions we need
 RUN set -ex; \
@@ -9,6 +9,7 @@ RUN set -ex; \
 	apt-get install -y --no-install-recommends \
 		libjpeg-dev \
 		libpng-dev \
+		autoconf \
 	; \
 	\
 	docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr; \
@@ -39,6 +40,8 @@ RUN { \
 		echo 'opcache.enable_cli=1'; \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
+RUN a2enmod rewrite expires
+
 VOLUME /var/www/html
 
 ENV WORDPRESS_VERSION 4.9.6
@@ -51,6 +54,7 @@ RUN set -ex; \
 	tar -xzf wordpress.tar.gz -C /usr/src/; \
 	rm wordpress.tar.gz; \
 	chown -R www-data:www-data /usr/src/wordpress
+
 
 # copy site content
 COPY . /var/www/html/
