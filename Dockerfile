@@ -1,4 +1,4 @@
-FROM php:7.1-fpm
+FROM php:7.0-apache
 
 # install the PHP extensions we need
 RUN set -ex; \
@@ -7,15 +7,6 @@ RUN set -ex; \
 	\
 	apt-get update; \
 	apt-get install -y --no-install-recommends \
-		apt-utils \
-		autoconf \
-		gzip \
-		libaio1 \
-		libaio-dev \
-		libxml2-dev \
-		make \
-		zip \
-		mysql-client \		
 		libjpeg-dev \
 		libpng-dev \
 	; \
@@ -48,6 +39,8 @@ RUN { \
 		echo 'opcache.enable_cli=1'; \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
+RUN a2enmod rewrite expires
+
 VOLUME /var/www/html
 
 ENV WORDPRESS_VERSION 4.9.6
@@ -61,6 +54,7 @@ RUN set -ex; \
 	rm wordpress.tar.gz; \
 	chown -R www-data:www-data /usr/src/wordpress
 
+# copy site content
 COPY . /var/www/html/
 
 # Section that sets up Apache and Cosign to run as non-root user.
