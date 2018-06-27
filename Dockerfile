@@ -10,6 +10,9 @@ RUN set -ex; \
 		libjpeg-dev \
 		libpng-dev \
 		autoconf \
+		gzip \
+		make \
+		zip \
 	; \
 	\
 	docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr; \
