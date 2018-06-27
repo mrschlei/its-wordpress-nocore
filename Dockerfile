@@ -88,8 +88,5 @@ RUN chmod -R g+rw /etc/apache2 \
 RUN chmod g+x /etc/ssl/private
 
 COPY start.sh /usr/local/bin/
-RUN chmod 755 /usr/local/bin
+RUN chmod 755 /usr/local/bin/start.sh
 CMD /usr/local/bin/start.sh
-
-#ENTRYPOINT ["start.sh"]
-#CMD ["start.sh"]
