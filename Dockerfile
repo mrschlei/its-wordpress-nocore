@@ -96,6 +96,10 @@ RUN chmod -R g+rw /etc/apache2 \
 	/var/lock/apache2 /var/log/apache2 /var/run/apache2 \
 	/var/www/html
 
+#
+RUN chown -R root:root /var/www/html
+RUN chmod -R g+rw /var/www/html
+
 RUN chmod g+x /etc/ssl/private
 
 COPY start.sh /usr/local/bin/
