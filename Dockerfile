@@ -64,7 +64,7 @@ VOLUME /var/www/html
 #WORKDIR /usr/src/wordpress
 COPY . /var/www/html/
 #RUN mv /usr/src/wordpress/* /var/www/html
-RUN cp -rp /usr/src/wordpress/* /var/www/html/
+#RUN cp -rp /usr/src/wordpress/* /var/www/html/
 #WORKDIR /var/www/html
 
 # Section that sets up Apache and Cosign to run as non-root user.
