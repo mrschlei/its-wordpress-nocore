@@ -62,11 +62,15 @@ VOLUME /var/www/html
 
 # copy site content
 #WORKDIR /usr/src/wordpress
-COPY . /var/www/html/
+#COPY . /var/www/html/
 #RUN mv /usr/src/wordpress/* /var/www/html
-RUN ls /usr/src/wordpress -la
+#RUN ls /usr/src/wordpress -la
 #RUN cp -rp /usr/src/wordpress/* /var/www/html/
 #WORKDIR /var/www/html
+
+WORKDIR /usr/src/wordpress
+COPY . /usr/src/wordpress
+RUN ln -sf /usr/src/wordpress /var/www/html
 
 # Section that sets up Apache and Cosign to run as non-root user.
 EXPOSE 8080
