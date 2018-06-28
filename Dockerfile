@@ -45,7 +45,7 @@ RUN { \
 
 RUN a2enmod rewrite expires
 
-VOLUME /var/www/html
+#VOLUME /var/www/html
 
 
 #removing wordpress gettin', as it's in the image, maybe
@@ -76,11 +76,15 @@ RUN ln -sf /usr/src/wordpress /var/www/html
 EXPOSE 8080
 EXPOSE 8443
 
+#
+RUN chown -R root:root /var/www/html
+RUN chmod -R g+rw /var/www/html
+
 ### change directory owner, as openshift user is in root group.
 RUN chown -R root:root /etc/apache2 \
 	/etc/ssl/certs /etc/ssl/private \
 	/usr/local/etc/php /usr/local/lib/php \
-	/var/lib/apache2/module/enabled_by_admin \ 
+	/var/lib/apache2/module/enabled_by_admin \
 	/var/lib/apache2/site/enabled_by_admin \
 	/usr/src/wordpress \
 	/var/lock/apache2 /var/log/apache2 /var/run/apache2 \
@@ -91,14 +95,10 @@ RUN chmod -R g+rw /etc/apache2 \
 	/etc/ssl/certs /etc/ssl/private \
 	/usr/local/etc/php /usr/local/lib/php \
 	/usr/src/wordpress \
-	/var/lib/apache2/module/enabled_by_admin \ 
+	/var/lib/apache2/module/enabled_by_admin \
 	/var/lib/apache2/site/enabled_by_admin \
 	/var/lock/apache2 /var/log/apache2 /var/run/apache2 \
 	/var/www/html
-
-#
-RUN chown -R root:root /var/www/html
-RUN chmod -R g+rw /var/www/html
 
 RUN chmod g+x /etc/ssl/private
 
