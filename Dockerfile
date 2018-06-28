@@ -64,6 +64,7 @@ VOLUME /var/www/html
 #WORKDIR /usr/src/wordpress
 COPY . /var/www/html/
 #RUN mv /usr/src/wordpress/* /var/www/html
+RUN ls /usr/src/wordpress -la
 #RUN cp -rp /usr/src/wordpress/* /var/www/html/
 #WORKDIR /var/www/html
 
@@ -77,7 +78,7 @@ RUN chown -R root:root /etc/apache2 \
 	/usr/local/etc/php /usr/local/lib/php \
 	/var/lib/apache2/module/enabled_by_admin \ 
 	/var/lib/apache2/site/enabled_by_admin \
-	/var/lock/apache2 /var/log/apache2 /var/run/apache2\
+	/var/lock/apache2 /var/log/apache2 /var/run/apache2 \
 	/var/www/html
 
 ### Modify perms for the openshift user, who is not root, but part of root group.
@@ -86,7 +87,7 @@ RUN chmod -R g+rw /etc/apache2 \
 	/usr/local/etc/php /usr/local/lib/php \
 	/var/lib/apache2/module/enabled_by_admin \ 
 	/var/lib/apache2/site/enabled_by_admin \
-	/var/lock/apache2 /var/log/apache2 /var/run/apache2\
+	/var/lock/apache2 /var/log/apache2 /var/run/apache2 \
 	/var/www/html
 
 RUN chmod g+x /etc/ssl/private
