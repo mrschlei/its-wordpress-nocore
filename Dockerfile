@@ -45,7 +45,7 @@ RUN { \
 
 RUN a2enmod rewrite expires
 
-#VOLUME /var/www/html
+VOLUME /var/www/html
 
 
 #removing wordpress gettin', as it's in the image, maybe
@@ -68,15 +68,16 @@ RUN a2enmod rewrite expires
 #RUN cp -rp /usr/src/wordpress/* /var/www/html/
 #WORKDIR /var/www/html
 
-WORKDIR /usr/src/wordpress
-COPY . /usr/src/wordpress
-RUN ln -sf /usr/src/wordpress /var/www/html
+#WORKDIR /usr/src/wordpress
+#COPY . /usr/src/wordpress
+#RUN ln -sf /usr/src/wordpress /var/www/html
 
 # Section that sets up Apache and Cosign to run as non-root user.
 EXPOSE 8080
 EXPOSE 8443
 
 #
+COPY . /var/www/html
 RUN chown -R root:root /var/www/html
 RUN chmod -R g+rw /var/www/html
 
