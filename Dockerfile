@@ -65,8 +65,8 @@ VOLUME /var/www/html
 #COPY . /var/www/html/
 #RUN mv /usr/src/wordpress/* /var/www/html
 #RUN ls /usr/src/wordpress -la
-#RUN cp -rp /usr/src/wordpress/* /var/www/html/
-#WORKDIR /var/www/html
+RUN cp -rp /usr/src/wordpress/* /var/www/html/
+WORKDIR /var/www/html
 
 #WORKDIR /usr/src/wordpress
 #COPY . /usr/src/wordpress
