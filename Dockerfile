@@ -47,7 +47,6 @@ RUN a2enmod rewrite expires
 
 VOLUME /var/www/html
 
-
 #removing wordpress gettin', as it's in the image, maybe
 #ENV WORDPRESS_VERSION 4.9.6
 #ENV WORDPRESS_SHA1 40616b40d120c97205e5852c03096115c2fca537
@@ -65,8 +64,8 @@ VOLUME /var/www/html
 #COPY . /var/www/html/
 #RUN mv /usr/src/wordpress/* /var/www/html
 #RUN ls /usr/src/wordpress -la
-RUN cp -rp /usr/src/wordpress/* /var/www/html/
-WORKDIR /var/www/html
+#RUN cp -rp /usr/src/wordpress/* /var/www/html/
+#WORKDIR /var/www/html
 
 #WORKDIR /usr/src/wordpress
 #COPY . /usr/src/wordpress
@@ -77,9 +76,13 @@ EXPOSE 8080
 EXPOSE 8443
 
 #
-COPY . /var/www/html
-RUN chown -R root:root /var/www/html
-RUN chmod -R g+rw /var/www/html
+#COPY . /var/www/html
+#RUN chown -R root:root /var/www/html
+#RUN chmod -R g+rw /var/www/html
+
+COPY . /usr/src/wordpress
+RUN chown -R root:root /usr/src/wordpress
+RUN chmod -R g+rw /usr/src/wordpress
 
 ### change directory owner, as openshift user is in root group.
 RUN chown -R root:root /etc/apache2 \
