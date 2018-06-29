@@ -78,7 +78,7 @@ EXPOSE 8080
 EXPOSE 8443
 
 #
-COPY . /var/www/html
+COPY . /var/www/html/wordpress
 RUN chown -R root:root /var/www
 RUN chmod -R g+rw /var/www
 
@@ -94,7 +94,7 @@ RUN chown -R root:root /etc/apache2 \
 	/var/lib/apache2/site/enabled_by_admin \
 	/usr/src/wordpress \
 	/var/lock/apache2 /var/log/apache2 /var/run/apache2 \
-	/var/www/html
+	/var/www/html/wordpress
 
 ### Modify perms for the openshift user, who is not root, but part of root group.
 RUN chmod -R g+rw /etc/apache2 \
@@ -104,7 +104,10 @@ RUN chmod -R g+rw /etc/apache2 \
 	/var/lib/apache2/module/enabled_by_admin \
 	/var/lib/apache2/site/enabled_by_admin \
 	/var/lock/apache2 /var/log/apache2 /var/run/apache2 \
-	/var/www/html
+	/var/www/html/wordpress
+
+RUN chown -R root:root /var/www
+RUN chmod -R g+rw /var/www
 
 RUN chmod g+x /etc/ssl/private
 
