@@ -46,11 +46,10 @@ RUN { \
 RUN a2enmod rewrite expires
 
 VOLUME /var/www/html
-#VOLUME /var/www/html/wordpress
 
 #removing wordpress gettin', as it's in the image, maybe
-#ENV WORDPRESS_VERSION 4.9.6
-#ENV WORDPRESS_SHA1 40616b40d120c97205e5852c03096115c2fca537
+ENV WORDPRESS_VERSION 4.9.6
+ENV WORDPRESS_SHA1 40616b40d120c97205e5852c03096115c2fca537
 
 RUN set -ex; \
 	curl -o wordpress.tar.gz -fSL "https://wordpress.org/wordpress-${WORDPRESS_VERSION}.tar.gz"; \
