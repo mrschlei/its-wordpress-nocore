@@ -79,7 +79,7 @@ EXPOSE 8443
 
 #
 # This is here due to chown/chmod not taking effect
-RUN groupadd -r www-data
+#RUN groupadd -r www-data
 RUN useradd -r -g www-data -s /sbin/nologin www-data
 RUN usermod -a -G root www-data
 
