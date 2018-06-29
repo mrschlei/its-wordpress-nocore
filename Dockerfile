@@ -56,8 +56,8 @@ RUN set -ex; \
 	echo "$WORDPRESS_SHA1 *wordpress.tar.gz" | sha1sum -c -; \
 	tar -xzf wordpress.tar.gz -C /var/www/html; \
 	rm wordpress.tar.gz; \
-	chown -R www-data:www-data /usr/src/wordpress
-#	chown -R root:root /var/www/html/wordpress
+#	chown -R www-data:www-data /usr/src/wordpress
+	chown -R root:root /usr/src/wordpress
 
 
 # copy site content
@@ -113,4 +113,5 @@ RUN chmod g+x /etc/ssl/private
 
 COPY start.sh /usr/local/bin/
 RUN chmod 755 /usr/local/bin/start.sh
-CMD /usr/local/bin/start.sh
+#CMD /usr/local/bin/start.sh
+ENTRPOINT ["start.sh"]
