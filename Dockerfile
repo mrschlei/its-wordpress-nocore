@@ -83,33 +83,29 @@ EXPOSE 8443
 #RUN useradd -r -g www-data -s /sbin/nologin www-data
 #RUN usermod -a -G root www-data
 
-#COPY . /var/www/html/wordpress
-#RUN chown -R root:root /var/www
-#RUN chmod -R g+rw /var/www
+COPY . /var/www/html
+RUN chown -R root:root /var/www
+RUN chmod -R g+rw /var/www
 
 #COPY . /usr/src/wordpress
 #RUN chown -R root:root /usr/src/wordpress
 #RUN chmod -R g+rw /usr/src/wordpress
 
 ### change directory owner, as openshift user is in root group.
-#RUN chown -R root:root /etc/apache2 \
-#	/etc/ssl/certs /etc/ssl/private \
-#	/usr/local/etc/php /usr/local/lib/php \
-#	/var/lib/apache2/module/enabled_by_admin \
-#	/var/lib/apache2/site/enabled_by_admin \
-#	/usr/src/wordpress \
-#	/var/lock/apache2 /var/log/apache2 /var/run/apache2 \
-#	/var/www/html/wordpress
-#
-### Modify perms for the openshift user, who is not root, but part of root group.
-#RUN chmod -R g+rw /etc/apache2 \
-#	/etc/ssl/certs /etc/ssl/private \
-#	/usr/local/etc/php /usr/local/lib/php \
-#	/usr/src/wordpress \
-#	/var/lib/apache2/module/enabled_by_admin \
-#	/var/lib/apache2/site/enabled_by_admin \
-#	/var/lock/apache2 /var/log/apache2 /var/run/apache2 \
-#	/var/www/html/wordpress
+RUN chown -R root:root /etc/apache2 \
+	/etc/ssl/certs /etc/ssl/private \
+	/usr/local/etc/php /usr/local/lib/php \
+	/var/lib/apache2/module/enabled_by_admin \
+	/var/lib/apache2/site/enabled_by_admin \
+	/var/lock/apache2 /var/log/apache2 /var/run/apache2
+
+## Modify perms for the openshift user, who is not root, but part of root group.
+RUN chmod -R g+rw /etc/apache2 \
+	/etc/ssl/certs /etc/ssl/private \
+	/usr/local/etc/php /usr/local/lib/php \
+	/var/lib/apache2/module/enabled_by_admin \
+	/var/lib/apache2/site/enabled_by_admin \
+	/var/lock/apache2 /var/log/apache2 /var/run/apache2
 
 #RUN chown -R root:root /var/www
 #RUN chmod -R g+rw /var/www
