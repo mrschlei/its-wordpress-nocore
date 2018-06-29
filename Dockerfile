@@ -45,20 +45,20 @@ RUN { \
 
 RUN a2enmod rewrite expires
 
-#VOLUME /var/www/html
-VOLUME /var/www/html/wordpress
+VOLUME /var/www/html
+#VOLUME /var/www/html/wordpress
 
 #removing wordpress gettin', as it's in the image, maybe
-ENV WORDPRESS_VERSION 4.9.6
-ENV WORDPRESS_SHA1 40616b40d120c97205e5852c03096115c2fca537
+#ENV WORDPRESS_VERSION 4.9.6
+#ENV WORDPRESS_SHA1 40616b40d120c97205e5852c03096115c2fca537
 
-RUN set -ex; \
-	curl -o wordpress.tar.gz -fSL "https://wordpress.org/wordpress-${WORDPRESS_VERSION}.tar.gz"; \
-	echo "$WORDPRESS_SHA1 *wordpress.tar.gz" | sha1sum -c -; \
-	tar -xzf wordpress.tar.gz -C /var/www/html; \
-	rm wordpress.tar.gz; \
-	#chown -R www-data:www-data /usr/src/wordpress
-	chown -R root:root /var/www/html/wordpress
+#RUN set -ex; \
+#	curl -o wordpress.tar.gz -fSL "https://wordpress.org/wordpress-${WORDPRESS_VERSION}.tar.gz"; \
+#	echo "$WORDPRESS_SHA1 *wordpress.tar.gz" | sha1sum -c -; \
+#	tar -xzf wordpress.tar.gz -C /var/www/html; \
+#	rm wordpress.tar.gz; \
+#	#chown -R www-data:www-data /usr/src/wordpress
+#	chown -R root:root /var/www/html/wordpress
 
 
 # copy site content
@@ -81,38 +81,38 @@ EXPOSE 8443
 # This is here due to chown/chmod not taking effect
 #RUN groupadd -r www-data
 #RUN useradd -r -g www-data -s /sbin/nologin www-data
-RUN usermod -a -G root www-data
+#RUN usermod -a -G root www-data
 
-COPY . /var/www/html/wordpress
-RUN chown -R root:root /var/www
-RUN chmod -R g+rw /var/www
+#COPY . /var/www/html/wordpress
+#RUN chown -R root:root /var/www
+#RUN chmod -R g+rw /var/www
 
 #COPY . /usr/src/wordpress
 #RUN chown -R root:root /usr/src/wordpress
 #RUN chmod -R g+rw /usr/src/wordpress
 
 ### change directory owner, as openshift user is in root group.
-RUN chown -R root:root /etc/apache2 \
-	/etc/ssl/certs /etc/ssl/private \
-	/usr/local/etc/php /usr/local/lib/php \
-	/var/lib/apache2/module/enabled_by_admin \
-	/var/lib/apache2/site/enabled_by_admin \
-	/usr/src/wordpress \
-	/var/lock/apache2 /var/log/apache2 /var/run/apache2 \
-	/var/www/html/wordpress
-
+#RUN chown -R root:root /etc/apache2 \
+#	/etc/ssl/certs /etc/ssl/private \
+#	/usr/local/etc/php /usr/local/lib/php \
+#	/var/lib/apache2/module/enabled_by_admin \
+#	/var/lib/apache2/site/enabled_by_admin \
+#	/usr/src/wordpress \
+#	/var/lock/apache2 /var/log/apache2 /var/run/apache2 \
+#	/var/www/html/wordpress
+#
 ### Modify perms for the openshift user, who is not root, but part of root group.
-RUN chmod -R g+rw /etc/apache2 \
-	/etc/ssl/certs /etc/ssl/private \
-	/usr/local/etc/php /usr/local/lib/php \
-	/usr/src/wordpress \
-	/var/lib/apache2/module/enabled_by_admin \
-	/var/lib/apache2/site/enabled_by_admin \
-	/var/lock/apache2 /var/log/apache2 /var/run/apache2 \
-	/var/www/html/wordpress
+#RUN chmod -R g+rw /etc/apache2 \
+#	/etc/ssl/certs /etc/ssl/private \
+#	/usr/local/etc/php /usr/local/lib/php \
+#	/usr/src/wordpress \
+#	/var/lib/apache2/module/enabled_by_admin \
+#	/var/lib/apache2/site/enabled_by_admin \
+#	/var/lock/apache2 /var/log/apache2 /var/run/apache2 \
+#	/var/www/html/wordpress
 
-RUN chown -R root:root /var/www
-RUN chmod -R g+rw /var/www
+#RUN chown -R root:root /var/www
+#RUN chmod -R g+rw /var/www
 
 RUN chmod g+x /etc/ssl/private
 

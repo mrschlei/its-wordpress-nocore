@@ -21,9 +21,6 @@ then
   /bin/sh /secrets/app/local.start.sh
 fi
 
-###Permission denied:
-#cp -rp /usr/src/wordpress/* /var/www/html/
-
 ## Rehash command needs to be run before starting apache.
 c_rehash /etc/ssl/certs >/dev/null
 
