@@ -106,8 +106,8 @@ RUN chmod -R g+rw /etc/apache2 \
 	/var/lib/apache2/site/enabled_by_admin \
 	/var/lock/apache2 /var/log/apache2 /var/run/apache2
 
-#RUN chown -R root:root /var/www
-#RUN chmod -R g+rw /var/www
+RUN chown -R root:root /var/www
+RUN chmod -R g+rw /var/www
 
 RUN chmod g+x /etc/ssl/private
 
