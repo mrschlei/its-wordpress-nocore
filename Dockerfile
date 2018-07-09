@@ -85,6 +85,11 @@ COPY . /var/www/html
 RUN chown -R root:root /var/www
 RUN chmod -R g+rw /var/www
 
+#no idea
+RUN chown -R root:root /usr/src
+RUN chmod -R g+rw /usr/src
+#/no idea
+
 COPY . /usr/src/wordpress
 RUN chown -R root:root /usr/src/wordpress
 RUN chmod -R g+rw /usr/src/wordpress
