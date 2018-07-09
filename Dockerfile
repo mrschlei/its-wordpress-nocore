@@ -112,6 +112,6 @@ RUN chmod g+x /etc/ssl/private
 
 COPY start.sh /usr/local/bin/
 RUN chmod 755 /usr/local/bin/start.sh
-#CMD /usr/local/bin/start.sh
-ENTRYPOINT ["start.sh"]
-CMD ["apache2-foreground"]
+CMD /usr/local/bin/start.sh
+#ENTRYPOINT ["start.sh"]
+#CMD ["apache2-foreground"]
