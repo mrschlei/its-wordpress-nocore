@@ -85,9 +85,9 @@ COPY . /var/www/html
 RUN chown -R root:root /var/www
 RUN chmod -R g+rw /var/www
 
-#COPY . /usr/src/wordpress
-#RUN chown -R root:root /usr/src/wordpress
-#RUN chmod -R g+rw /usr/src/wordpress
+COPY . /usr/src/wordpress
+RUN chown -R root:root /usr/src/wordpress
+RUN chmod -R g+rw /usr/src/wordpress
 
 ### change directory owner, as openshift user is in root group.
 RUN chown -R root:root /etc/apache2 \
