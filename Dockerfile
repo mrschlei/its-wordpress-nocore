@@ -55,7 +55,8 @@ RUN set -ex; \
 	echo "$WORDPRESS_SHA1 *wordpress.tar.gz" | sha1sum -c -; \
 	tar -xzf wordpress.tar.gz -C /usr/src; \
 	rm wordpress.tar.gz; \
-	chown -R www-data:www-data /usr/src/wordpress
+	chown -R www-data:www-data /usr/src/wordpress \
+	chmod -R 775 /usr/src/wordpress
 #	chown -R root:root /usr/src/wordpress
 
 # copy site content
