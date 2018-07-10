@@ -13,10 +13,9 @@
  */
 
 echo "DB_USER<p>";
-if (isset(getenv('DB_USER'))) {
+
   var_dump(getenv('DB_USER'));
-}
-else {echo "DB_USER not set";}
+
 echo "<hr />";
 
 define('WP_USE_THEMES', true);
